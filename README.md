@@ -47,7 +47,8 @@ Add these in GitHub: repo Settings > Secrets and variables > Actions > New repos
 | Secret | Value |
 | --- | --- |
 | `ANTHROPIC_API_KEY` | Key from a dedicated Anthropic workspace with a spend limit |
-| `SMTP_HOST` | `smtp.gmail.com` for Google Workspace |
+| `RESEND_API_KEY` | Option A for email (easiest): free key from resend.com. Sign up with the address that should receive the reports. Then skip the SMTP rows |
+| `SMTP_HOST` | Option B for email: `smtp.gmail.com` for Google Workspace |
 | `SMTP_PORT` | `587` |
 | `SMTP_USER` | Sending mailbox, e.g. `work@staplerlabs.com` |
 | `SMTP_PASSWORD` | A Google app password for that mailbox (not the normal password) |
