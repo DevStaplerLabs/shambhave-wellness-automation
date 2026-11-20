@@ -1,0 +1,73 @@
+# StaplerLabs internal SEO / GEO automation for Shambhave Wellness.
+# Edit this file to change sites, queries, models or limits. No secrets here.
+
+sites:
+  - key: wellness
+    name: Shambhave Wellness
+    base_url: https://shambhavewellness.org
+    sitemap: https://shambhavewellness.org/sitemap.xml
+    brand_terms: ["Shambhave Wellness", "Amita Puri"]
+  - key: foundation
+    name: Shambhave Wellness Foundation
+    base_url: https://foundation.shambhavewellness.org
+    sitemap: https://foundation.shambhavewellness.org/sitemap.xml
+    brand_terms: ["Shambhave Wellness Foundation", "Shambhave Foundation"]
+
+crawl:
+  user_agent: "Mozilla/5.0 (compatible; StaplerLabs-SEO-Monitor/1.0; +https://staplerlabs.com)"
+  timeout_seconds: 30
+  delay_seconds: 1.0          # polite gap between requests
+  max_pages_per_site: 200
+  # Files that should never be publicly downloadable.
+  sensitive_paths: ["/.env", "/.git/config", "/composer.lock", "/composer.json",
+                    "/composer.phar", "/Dockerfile", "/docker-compose.yml",
+                    "/README.md", "/security.conf", "/scratch/", "/storage/logs/laravel.log"]
+  # Crawlers we want to be able to read the site (GEO).
+  ai_bots: ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User",
+            "PerplexityBot", "Google-Extended", "Bingbot", "Googlebot"]
+
+limits:
+  title_min: 30
+  title_max: 60
+  description_min: 70
+  description_max: 160
+  min_words_service_page: 600
+  max_html_kb: 250
+
+pagespeed:
+  # Pages tested weekly on mobile. Free API; PSI_API_KEY secret is optional.
+  urls:
+    - https://shambhavewellness.org/
+    - https://shambhavewellness.org/service/narcissistic-abuse-recovery-therapy
+    - https://foundation.shambhavewellness.org/
+
+geo:
+  # Questions people ask AI assistants. Weekly check: is either site cited?
+  target_domains: ["shambhavewellness.org"]
+  queries:
+    - "narcissistic abuse recovery therapist in India"
+    - "clinical psychologist in Gurugram for narcissistic abuse"
+    - "online therapy for NRIs with an Indian psychologist"
+    - "what is Subconscious Energy Healing Therapy (SEHT)"
+    - "what is Boundary Enhancement Therapy"
+    - "hypnotherapist in Gurgaon"
+    - "mental health NGO in Gurugram for abuse survivors"
+    - "Dr Amita Puri psychologist"
+  max_searches_per_query: 2
+
+ai:
+  # Models are chosen for low cost. Change here if you want higher quality.
+  report_model: claude-haiku-5-5       # weekly email text
+  suggest_model: claude-sonnet-5-5     # daily ready-to-paste fixes
+  geo_model: claude-sonnet-5-5         # AI visibility check (needs web search)
+  max_suggestions_per_day: 8
+  monthly_budget_usd: 15               # AI calls stop for the month above this
+  # USD per million tokens, used only for the budget guard and the cost line in reports.
+  prices:
+    claude-haiku-5-5: {input: 0.10, output: 0.50, cache_read: 0.01}
+    claude-sonnet-5-5: {input: 2.00, output: 10.00, cache_read: 0.20}
+    claude-opus-5-5: {input: 4.00, output: 20.00, cache_read: 0.20}
+
+report:
+  weekday: monday
+  subject_prefix: "Shambhave Wellness | Weekly SEO and GEO report"

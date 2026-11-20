@@ -1,0 +1,24 @@
+sites:
+  - key: wellness
+    name: Mock Wellness
+    base_url: http://127.0.0.1:8099
+    sitemap: http://127.0.0.1:8099/sitemap.xml
+    brand_terms: ["Shambhave Wellness"]
+crawl:
+  user_agent: "StaplerLabs-SEO-Monitor-test"
+  timeout_seconds: 5
+  delay_seconds: 0
+  max_pages_per_site: 50
+  sensitive_paths: ["/.env", "/composer.lock", "/scratch/"]
+  ai_bots: ["GPTBot", "ClaudeBot", "Googlebot"]
+limits: {title_min: 30, title_max: 60, description_min: 70, description_max: 160, min_words_service_page: 600, max_html_kb: 250}
+pagespeed: {urls: []}
+geo: {target_domains: ["shambhavewellness.org"], queries: [], max_searches_per_query: 1}
+ai:
+  report_model: claude-haiku-5-5
+  suggest_model: claude-sonnet-5-5
+  geo_model: claude-sonnet-5-5
+  max_suggestions_per_day: 5
+  monthly_budget_usd: 1
+  prices: {claude-haiku-5-5: {input: 0.1, output: 0.5, cache_read: 0.01}, claude-sonnet-5-5: {input: 2, output: 10, cache_read: 0.2}}
+report: {weekday: monday, subject_prefix: "TEST | Weekly SEO and GEO report"}
