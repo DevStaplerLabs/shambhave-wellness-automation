@@ -1,0 +1,74 @@
+{
+  "geo": [
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "narcissistic abuse recovery therapist in India",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": true,
+      "cited": false,
+      "in_results": true,
+      "query": "clinical psychologist in Gurugram for narcissistic abuse",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "online therapy for NRIs with an Indian psychologist",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "what is Subconscious Energy Healing Therapy (SEHT)",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "what is Boundary Enhancement Therapy",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "hypnotherapist in Gurgaon",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "mental health NGO in Gurugram for abuse survivors",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": true,
+      "query": "Dr Amita Puri psychologist",
+      "top_sources": []
+    }
+  ],
+  "pagespeed": [
+    {
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%",
+      "url": "https://shambhavewellness.org/"
+    },
+    {
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%",
+      "url": "https://shambhavewellness.org/service/narcissistic-abuse-recovery-therapy"
+    },
+    {
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%",
+      "url": "https://foundation.shambhavewellness.org/"
+    }
+  ]
+}

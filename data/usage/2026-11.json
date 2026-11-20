@@ -19,7 +19,107 @@
       "purpose": "daily_suggestions",
       "request_id": "req_011ChEeyUWhUr9cUQ4aFgdFk",
       "usd": 0.07009
+    },
+    {
+      "at": "2026-11-20T18:31:26+00:00",
+      "cache_read": 12459,
+      "in": 96,
+      "model": "claude-sonnet-5-5",
+      "out": 460,
+      "purpose": "geo_check",
+      "request_id": "req_011ChEf53L3m8D9ygkcnWLLw",
+      "usd": 0.0353
+    },
+    {
+      "at": "2026-11-20T18:31:41+00:00",
+      "cache_read": 33282,
+      "in": 106,
+      "model": "claude-sonnet-5-5",
+      "out": 776,
+      "purpose": "geo_check",
+      "request_id": "req_011ChEf5dX7KiqF93jJvWREs",
+      "usd": 0.04146
+    },
+    {
+      "at": "2026-11-20T18:31:51+00:00",
+      "cache_read": 18405,
+      "in": 98,
+      "model": "claude-sonnet-5-5",
+      "out": 528,
+      "purpose": "geo_check",
+      "request_id": "req_011ChEf6n74fZnVUGgBYFTAg",
+      "usd": 0.02223
+    },
+    {
+      "at": "2026-11-20T18:32:00+00:00",
+      "cache_read": 18396,
+      "in": 103,
+      "model": "claude-sonnet-5-5",
+      "out": 448,
+      "purpose": "geo_check",
+      "request_id": "req_011ChEf7Ujp1Yi6taEUpaE47",
+      "usd": 0.02125
+    },
+    {
+      "at": "2026-11-20T18:32:14+00:00",
+      "cache_read": 32823,
+      "in": 99,
+      "model": "claude-sonnet-5-5",
+      "out": 644,
+      "purpose": "geo_check",
+      "request_id": "req_011ChEf89RkN6VTKMxjW4gKc",
+      "usd": 0.02819
+    },
+    {
+      "at": "2026-11-20T18:32:23+00:00",
+      "cache_read": 18392,
+      "in": 94,
+      "model": "claude-sonnet-5-5",
+      "out": 523,
+      "purpose": "geo_check",
+      "request_id": "req_011ChEf9C1J4BzfgutRBbAgX",
+      "usd": 0.02289
+    },
+    {
+      "at": "2026-11-20T18:32:31+00:00",
+      "cache_read": 18403,
+      "in": 99,
+      "model": "claude-sonnet-5-5",
+      "out": 502,
+      "purpose": "geo_check",
+      "request_id": "req_011ChEf9rxqzeMRJ342fWUuR",
+      "usd": 0.02338
+    },
+    {
+      "at": "2026-11-20T18:32:39+00:00",
+      "cache_read": 18381,
+      "in": 93,
+      "model": "claude-sonnet-5-5",
+      "out": 215,
+      "purpose": "geo_check",
+      "request_id": "req_011ChEfAUFss1kPoqAsn8Yh1",
+      "usd": 0.01952
+    },
+    {
+      "at": "2026-11-20T18:33:15+00:00",
+      "cache_read": 0,
+      "in": 1083,
+      "model": "claude-sonnet-5-5",
+      "out": 4820,
+      "purpose": "weekly_article",
+      "request_id": "req_011ChEfB1bn7y2XoVuZfV1yX",
+      "usd": 0.05037
+    },
+    {
+      "at": "2026-11-20T18:33:24+00:00",
+      "cache_read": 0,
+      "in": 3078,
+      "model": "claude-haiku-5-5",
+      "out": 1885,
+      "purpose": "weekly_report",
+      "request_id": "req_011ChEfDhxUifrbLAVyRR88h",
+      "usd": 0.00125
     }
   ],
-  "total_usd": 0.1293
+  "total_usd": 0.39514
 }
