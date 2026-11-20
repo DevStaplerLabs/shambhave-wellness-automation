@@ -6,14 +6,51 @@ sites:
     name: Shambhave Wellness
     base_url: https://shambhavewellness.org
     sitemap: https://shambhavewellness.org/sitemap.xml
+    gsc_property: "https://shambhavewellness.org/"   # URL-prefix property (site has a Google verification file)
     brand_terms: ["Shambhave Wellness", "Amita Puri"]
   - key: foundation
     name: Shambhave Wellness Foundation
     base_url: https://foundation.shambhavewellness.org
     sitemap: https://foundation.shambhavewellness.org/sitemap.xml
+    gsc_property: "https://foundation.shambhavewellness.org/"   # CONFIRM this property exists in Search Console
     brand_terms: ["Shambhave Wellness Foundation", "Shambhave Foundation"]
 
+# Facts used to generate correct schema and llms.txt. Only facts confirmed on the live site are filled in.
+# Anything marked CONFIRM must be checked with the clinic before the generated files are deployed.
+entity:
+  clinic_name: Shambhave Wellness
+  legal_note: "CONFIRM registered entity name"
+  phone: "+919315311334"
+  email: info@shambhavewellness.org
+  street: "Orchid Petals, Sector 49"
+  city: Gurugram
+  region: Haryana
+  postcode: "122018"
+  country: IN
+  geo: {lat: 28.4187, lng: 77.0527}
+  opening_hours: "Mo-Su 10:00-20:00"     # CONFIRM, Practo lists different hours
+  languages: [English, Hindi]
+  founder:
+    name: Dr. Amita Puri
+    job_title: Clinical Psychologist
+    honorific: Dr.
+    profile_url: https://shambhavewellness.org/about-us
+    image: https://shambhavewellness.org/assets/img/international/dr_amita_puri_studio.webp
+    knows_about: [Narcissistic abuse recovery, Trauma therapy, Clinical hypnotherapy, Psychotherapy, Boundary work]
+    same_as:
+      - https://www.amazon.in/Narcissism-Navigated-Harnessing-Personal-Growth-ebook/dp/B0DCT4P6YN
+      - https://walnutpublication.com/author/695014167
+  same_as:
+    - https://www.youtube.com/@ShambhaveWellness
+    - https://www.instagram.com/shambhave_wellness/   # CONFIRM which Instagram handle is official
+    - https://www.facebook.com/profile.php?id=61560963148382
+  foundation:
+    name: Shambhave Wellness Foundation
+    url: https://foundation.shambhavewellness.org/
+    description: "Non-profit arm of Shambhave Wellness running community mental health programmes, subsidised therapy and volunteering in India."
+
 crawl:
+  max_link_checks: 120
   user_agent: "Mozilla/5.0 (compatible; StaplerLabs-SEO-Monitor/1.0; +https://staplerlabs.com)"
   timeout_seconds: 30
   delay_seconds: 1.0          # polite gap between requests
@@ -67,6 +104,24 @@ ai:
     claude-haiku-5-5: {input: 0.10, output: 0.50, cache_read: 0.01}
     claude-sonnet-5-5: {input: 2.00, output: 10.00, cache_read: 0.20}
     claude-opus-5-5: {input: 4.00, output: 20.00, cache_read: 0.20}
+
+content:
+  # One article draft a week. Search Console demand comes first; otherwise the next topic below.
+  per_week: 1
+  model: claude-sonnet-5-5           # switch to claude-opus-5-5 for higher quality drafts
+  topics:
+    - {site: wellness, topic: "Narcissistic in-laws in Indian joint families: signs and how to protect your peace"}
+    - {site: wellness, topic: "Trauma bonding explained: why leaving a narcissistic partner feels so hard"}
+    - {site: wellness, topic: "Hoovering: what it is and how to respond when a narcissist returns"}
+    - {site: wellness, topic: "Clinical psychologist, counselling psychologist or psychiatrist: who to see in India"}
+    - {site: wellness, topic: "What happens in a first clinical hypnotherapy session"}
+    - {site: wellness, topic: "Online therapy for NRIs: working with an Indian psychologist across time zones"}
+    - {site: wellness, topic: "What is Boundary Enhancement Therapy and who is it for"}
+    - {site: wellness, topic: "Setting boundaries with parents as an adult in India"}
+    - {site: wellness, topic: "Covert narcissism in marriage: subtle signs"}
+    - {site: wellness, topic: "How to choose a therapist in Gurugram"}
+    - {site: foundation, topic: "How community mental health programmes help abuse survivors in India"}
+    - {site: foundation, topic: "Volunteering for mental health in Gurugram: what volunteers actually do"}
 
 report:
   weekday: monday

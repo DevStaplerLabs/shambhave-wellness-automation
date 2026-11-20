@@ -31,13 +31,20 @@ class Fetcher:
             time.sleep(wait)
         self._last = time.time()
         headers = {"User-Agent": ua} if ua else None
-        t0 = time.time()
-        try:
-            r = self.s.request(method, url, timeout=self.timeout, allow_redirects=allow_redirects, headers=headers)
-            r.elapsed_ms = int((time.time() - t0) * 1000)
-            return r
-        except requests.RequestException as e:
-            return e
+        result = None
+        for attempt in range(2):  # one retry for flaky hosting
+            t0 = time.time()
+            try:
+                r = self.s.request(method, url, timeout=self.timeout, allow_redirects=allow_redirects, headers=headers)
+                r.elapsed_ms = int((time.time() - t0) * 1000)
+                result = r
+                if r.status_code < 500:
+                    return r
+            except requests.RequestException as e:
+                result = e
+            if attempt == 0:
+                time.sleep(3)
+        return result
 
 
 def issue(site, rule, severity, url, detail):
@@ -47,7 +54,7 @@ def issue(site, rule, severity, url, detail):
 
 # ---------- sitemap ----------
 
-def sitemap_urls(fetcher, sitemap_url, limit):
+def sitemap_urls(fetcher, sitemap_url, limit, lastmods=None):
     urls, seen_maps = [], set()
     queue = [sitemap_url]
     while queue and len(urls) < limit:
@@ -62,7 +69,13 @@ def sitemap_urls(fetcher, sitemap_url, limit):
         if soup.find("sitemapindex"):
             queue += [l.text.strip() for l in soup.find_all("loc")]
         else:
-            urls += [l.text.strip() for l in soup.find_all("loc")]
+            for u in soup.find_all("url"):
+                loc = u.find("loc")
+                if loc:
+                    urls.append(loc.text.strip())
+                    lm = u.find("lastmod")
+                    if lastmods is not None and lm:
+                        lastmods.append(lm.text.strip()[:10])
     # keep order, drop duplicates
     out, seen = [], set()
     for u in urls:
@@ -126,6 +139,11 @@ def page_facts(url, r):
         "og_image": meta(property="og:image"),
         "twitter_card": meta(name="twitter:card"),
         "lang": (soup.html.get("lang") if soup.html else None),
+        "x_robots": (r.headers.get("X-Robots-Tag") or "").lower(),
+        "img_no_size": sum(1 for i in imgs if not (i.get("width") and i.get("height"))),
+        "img_srcs": [urljoin(url, i["src"]) for i in imgs if i.get("src") and not i["src"].startswith("data:")][:40],
+        "mixed_content": sum(1 for t in BeautifulSoup(r.content, "lxml").find_all(["img", "script", "link", "iframe"])
+                             if url.startswith("https://") and (t.get("src") or t.get("href") or "").startswith("http://")),
         "jsonld": parse_jsonld(BeautifulSoup(r.content, "lxml")),
         "words": len(text.split()),
         "first_text": text[:160],
@@ -144,6 +162,13 @@ def page_issues(site, f, lim):
         return [issue(site, "page_status", sev, u, f"Returns HTTP {f['status']}")]
     if f["redirects"]:
         out.append(issue(site, "sitemap_redirect", "low", u, f"Sitemap URL redirects to {f['final_url']}"))
+    if "noindex" in f.get("x_robots", ""):
+        out.append(issue(site, "noindex_header", "critical", u, "X-Robots-Tag header says noindex"))
+    if f.get("mixed_content"):
+        out.append(issue(site, "mixed_content", "medium", u, f"{f['mixed_content']} resources load over http on an https page"))
+    if f.get("img_no_size", 0) > 5:
+        out.append(issue(site, "img_no_dimensions", "low", u,
+                         f"{f['img_no_size']} images have no width/height, which causes layout shift (CLS)"))
     if "noindex" in f["robots"]:
         out.append(issue(site, "noindex", "critical", u, "Page is set to noindex"))
     t = f["title"]
@@ -189,6 +214,12 @@ def page_issues(site, f, lim):
     path = urlparse(u).path
     if ("/service/" in path or "/blog/" in path) and f["words"] < lim["min_words_service_page"]:
         out.append(issue(site, "thin_content", "medium", u, f"About {f['words']} words of visible text"))
+    types = {t for b in f["jsonld"] for t in b["types"]}
+    if "/service/" in path and "FAQPage" not in types:
+        out.append(issue(site, "faq_schema_missing", "medium", u,
+                         "Service page has no FAQ section with FAQPage schema (strong signal for AI answers)"))
+    if path.startswith("/blog/") and not types & {"BlogPosting", "Article", "MedicalWebPage"}:
+        out.append(issue(site, "article_schema_missing", "medium", u, "Article page has no BlogPosting/Article schema"))
     return out
 
 
@@ -305,9 +336,68 @@ def cross_page_issues(site, pages):
     return out
 
 
+SKIP_EXT = (".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg", ".pdf", ".mp4", ".css", ".js", ".ico", ".zip")
+
+
+def norm(u):
+    p = urlparse(u)
+    return f"{p.scheme}://{p.netloc.removeprefix('www.')}{p.path.rstrip('/') or '/'}"
+
+
+def link_issues(fetcher, cfg, site, sitemap, pages):
+    """Broken internal links and orphan pages (in the sitemap but linked from nowhere)."""
+    key, out = site["key"], []
+    in_sitemap = {norm(u) for u in sitemap}
+    linked_from = defaultdict(set)
+    for f in pages:
+        for l in f.get("internal_links", []):
+            if l.lower().endswith(SKIP_EXT) or "javascript:" in l:
+                continue
+            linked_from[norm(l)].add(f["url"])
+    ok_status = {norm(f["url"]): f.get("status") for f in pages}
+    # Check links that point outside the sitemap (limit for politeness)
+    to_check = [l for l in linked_from if l not in in_sitemap and not any(x in l for x in ("/login", "/admin", "/student", "/payment", "/api/", "/cdn-cgi/"))]
+    for l in to_check[: cfg["crawl"].get("max_link_checks", 120)]:
+        r = fetcher.get(l, method="HEAD")
+        st = r.status_code if not isinstance(r, Exception) else 0
+        if st == 405:
+            r = fetcher.get(l)
+            st = r.status_code if not isinstance(r, Exception) else 0
+        ok_status[l] = st
+        if st >= 400 or st == 0:
+            src = sorted(linked_from[l])[:3]
+            out.append(issue(key, "broken_link", "high", l, f"Linked from {len(linked_from[l])} page(s), e.g. {src[0]}, returns {st or 'error'}"))
+    home = norm(site["base_url"])
+    live = {f["url"] for f in pages if f.get("status") == 200}
+    for u in sitemap:
+        n = norm(u)
+        if u in live and n != home and not (linked_from.get(n, set()) - {u}):
+            out.append(issue(key, "orphan_page", "medium", u, "In the sitemap but no other page links to it"))
+    return out
+
+
+def image_issues(fetcher, site, pages, limit_kb=300):
+    """HEAD the images on the homepage and up to 4 other pages; flag heavy ones."""
+    out, seen = [], set()
+    sample = [p for p in pages if p.get("img_srcs")][:5]
+    for p in sample:
+        for src in p["img_srcs"][:15]:
+            if src in seen:
+                continue
+            seen.add(src)
+            r = fetcher.get(src, method="HEAD")
+            if isinstance(r, Exception):
+                continue
+            kb = int(r.headers.get("content-length", 0) or 0) / 1024
+            if kb > limit_kb:
+                out.append(issue(site["key"], "image_heavy", "medium", src, f"{round(kb)} KB image on {p['url']}"))
+    return out
+
+
 def audit_site(fetcher, cfg, site):
     lim = cfg["limits"]
-    urls = sitemap_urls(fetcher, site["sitemap"], cfg["crawl"]["max_pages_per_site"])
+    lastmods = []
+    urls = sitemap_urls(fetcher, site["sitemap"], cfg["crawl"]["max_pages_per_site"], lastmods)
     issues, pages = [], []
     if not urls:
         issues.append(issue(site["key"], "sitemap_empty", "critical", site["sitemap"], "Sitemap missing, empty or unreachable"))
@@ -325,6 +415,12 @@ def audit_site(fetcher, cfg, site):
         issues += page_issues(site["key"], f, lim) if "title" in f else [
             issue(site["key"], "page_status", "critical" if r.status_code >= 500 else "high", u, f"Returns HTTP {r.status_code}")]
     issues += cross_page_issues(site["key"], pages)
+    issues += link_issues(fetcher, cfg, site, urls, pages)
+    issues += image_issues(fetcher, site, pages)
+    today_str = time.strftime("%Y-%m-%d")
+    if lastmods and sum(1 for d in lastmods if d == today_str) / len(lastmods) > 0.8 and len(lastmods) > 5:
+        issues.append(issue(site["key"], "lastmod_unreliable", "low", site["sitemap"],
+                            "Most sitemap lastmod dates are today's date; Google learns to ignore them. Use real edit dates."))
     s_issues, facts = site_checks(fetcher, cfg, site, urls)
     issues += s_issues
     issues.sort(key=lambda i: (SEVERITY_ORDER[i["severity"]], i["rule"], i["url"]))

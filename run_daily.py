@@ -7,6 +7,7 @@ import html
 
 from seo.ai import AI
 from seo.crawl import diff, run_audit, score
+from seo.generate import write_generated
 from seo.notify import send_email
 from seo.store import DATA, audit_on_or_before, load_config, today, write_json, write_text
 from seo.suggest import run_suggestions
@@ -23,6 +24,7 @@ def main():
     write_json(f"audits/{day}.json", audit)
     d = diff(prev, audit)
 
+    write_generated(cfg, audit)
     ai = AI(cfg, enabled=not args.no_ai)
     md, n_static, n_ai = run_suggestions(cfg, audit, day, ai)
     # A second run on the same day must not wipe the fixes already written that morning.
