@@ -34,7 +34,8 @@ def score_history(weeks=8):
 
 
 def competitor_tally(geo, targets):
-    c = Counter(d for g in geo for d in g.get("top_sources", []) if not any(t in d for t in targets))
+    c = Counter(d for g in geo for d in set(g.get("top_sources", [])) | set(g.get("sources_found", []))
+                if not any(t in d for t in targets))
     return [{"domain": d, "cited_in": n} for d, n in c.most_common(8)]
 
 
@@ -127,8 +128,8 @@ def render(cfg, facts, summary_md):
     hist_block = ("<h2>Score trend</h2><table><tr><th>Week</th>" + "".join(f"<th>{e(k)}</th>" for k in keys) + "</tr>"
                   + "".join("<tr><td>" + e(h["week"]) + "</td>" + "".join(f"<td>{h.get(k, '')}</td>" for k in keys) + "</tr>"
                             for h in hist) + "</table>") if len(hist) > 1 else ""
-    comp = "".join(f"<li>{e(c['domain'])}: cited in {c['cited_in']} answer(s)</li>" for c in facts.get("competitors_cited", []))
-    comp_block = f"<h2>Who AI search cites instead</h2><ul>{comp}</ul>" if comp else ""
+    comp = "".join(f"<li>{e(c['domain'])}: in {c['cited_in']} of {len(facts.get('geo', []))} answers</li>" for c in facts.get("competitors_cited", []))
+    comp_block = f"<h2>Who AI search uses instead</h2><ul>{comp}</ul>" if comp else ""
     drafts = "".join(f"<li>{e(c.get('topic', ''))}: {e(c.get('file') or c.get('error', ''))}</li>" for c in facts.get("content_drafts", []))
     drafts_block = f"<h2>New article drafts (review before publishing)</h2><ul>{drafts}</ul>" if drafts else ""
     resolved = "".join(f"<li>{e(i['rule'])}: {e(i['url'])}</li>" for i in facts["resolved_this_week"]) or "<li>None this week</li>"

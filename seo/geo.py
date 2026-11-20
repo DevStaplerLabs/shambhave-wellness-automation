@@ -43,7 +43,8 @@ def run_geo(cfg, ai: AI):
                 hit = lambda ds: any(t == d or d.endswith("." + t) for d in ds for t in targets)
                 row.update({"in_results": hit(found), "cited": hit(cited),
                             "brand_mentioned": any(b in (text or "").lower() for b in brands),
-                            "top_sources": sorted(cited)[:6]})
+                            "top_sources": sorted(cited)[:6],
+                            "sources_found": sorted(found)[:10]})
         except BudgetExceeded as e:
             row["error"] = str(e)
             results.append(row)
