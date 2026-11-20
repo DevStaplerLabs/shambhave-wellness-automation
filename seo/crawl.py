@@ -261,6 +261,12 @@ def site_checks(fetcher, cfg, site, page_urls):
     facts["robots_txt"] = robots[:2000]
     if not robots:
         out.append(issue(key, "robots_missing", "medium", base + "/robots.txt", "robots.txt not found"))
+    for line in robots.splitlines():
+        if line.lower().startswith("sitemap:"):
+            sm_host = urlparse(line.split(":", 1)[1].strip()).netloc.removeprefix("www.")
+            if sm_host and sm_host != host.removeprefix("www."):
+                out.append(issue(key, "robots_sitemap_wrong_host", "critical", base + "/robots.txt",
+                                 f"robots.txt points to another domain's sitemap: {line.strip()}"))
     blocked = [b for b in cfg["crawl"]["ai_bots"] if robots and robots_blocks(robots, b)]
     if blocked:
         out.append(issue(key, "robots_blocks_ai", "high", base + "/robots.txt", "robots.txt blocks: " + ", ".join(blocked)))
@@ -297,7 +303,8 @@ def site_checks(fetcher, cfg, site, page_urls):
             continue
         loc = rr.headers.get("location", "")
         if rr.status_code == 200:
-            out.append(issue(key, "host_duplicate", "high", variant, f"{variant} loads without redirecting to {base}/"))
+            out.append(issue(key, "host_duplicate", "high", variant,
+                             f"{variant} loads with 200 as well as {base}/. Pick one version and 301 the other."))
         elif rr.status_code in (301, 308) and urlparse(loc).netloc not in (host, ""):
             out.append(issue(key, "host_redirect_wrong", "medium", variant, f"Redirects to {loc}"))
 
@@ -394,14 +401,44 @@ def image_issues(fetcher, site, pages, limit_kb=300):
     return out
 
 
+def discover(fetcher, base_url, limit):
+    """Fallback when the sitemap is unusable: follow internal links from the homepage."""
+    start = base_url.rstrip("/") + "/"
+    seen, queue = [], [start]
+    while queue and len(seen) < min(limit, 80):
+        u = queue.pop(0)
+        if u in seen:
+            continue
+        seen.append(u)
+        r = fetcher.get(u)
+        if isinstance(r, Exception) or r.status_code != 200 or "html" not in r.headers.get("content-type", ""):
+            continue
+        soup = BeautifulSoup(r.content, "lxml")
+        for a in soup.find_all("a", href=True):
+            l = urljoin(u, a["href"]).split("#")[0].split("?")[0]
+            if urlparse(l).netloc == urlparse(start).netloc and not l.lower().endswith(SKIP_EXT) \
+                    and not any(x in l for x in ("/login", "admin", "/student", "/payment", "/api/")) and l not in seen:
+                queue.append(l)
+    return seen
+
+
 def audit_site(fetcher, cfg, site):
     lim = cfg["limits"]
     lastmods = []
-    urls = sitemap_urls(fetcher, site["sitemap"], cfg["crawl"]["max_pages_per_site"], lastmods)
+    limit = cfg["crawl"]["max_pages_per_site"]
+    urls = sitemap_urls(fetcher, site["sitemap"], limit, lastmods)
     issues, pages = [], []
+    host = urlparse(site["base_url"]).netloc.removeprefix("www.")
+    foreign = [u for u in urls if urlparse(u).netloc.removeprefix("www.") != host]
+    if foreign:
+        issues.append(issue(site["key"], "sitemap_wrong_host", "critical", site["sitemap"],
+                            f"{len(foreign)} of {len(urls)} sitemap URLs belong to another domain "
+                            f"(e.g. {foreign[0]}). This site's own pages are not being submitted to Google."))
+        urls = [u for u in urls if u not in foreign]
     if not urls:
-        issues.append(issue(site["key"], "sitemap_empty", "critical", site["sitemap"], "Sitemap missing, empty or unreachable"))
-        urls = [site["base_url"].rstrip("/") + "/"]
+        if not foreign:
+            issues.append(issue(site["key"], "sitemap_empty", "critical", site["sitemap"], "Sitemap missing, empty or unreachable"))
+        urls = discover(fetcher, site["base_url"], limit)
     for u in urls:
         r = fetcher.get(u)
         if isinstance(r, Exception):

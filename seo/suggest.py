@@ -2,6 +2,7 @@
 Copy problems (titles, descriptions, thin pages, llms.txt) get ready-to-paste text from Claude,
 a few per day, never the same issue twice."""
 import json
+import re
 from urllib.parse import urlparse
 
 from .ai import HOUSE_RULES, AI, BudgetExceeded
@@ -21,6 +22,10 @@ STATIC_FIXES = {
     "img_no_dimensions": "Add width and height attributes to images (or CSS aspect-ratio) to stop layout shift.",
     "image_heavy": "Resize to the displayed width and compress to WebP under 150 KB.",
     "lastmod_unreliable": "In SitemapController, use each page's real updated_at for <lastmod>, not today's date.",
+    "sitemap_wrong_host": "Delete the static sitemap.xml from the web root (and from the repo) so Laravel's "
+                          "SitemapController serves a sitemap per domain. Apache serves real files before routes.",
+    "robots_sitemap_wrong_host": "Delete the static robots.txt from the web root (and the repo) so SitemapController "
+                                 "serves robots.txt per domain with the right Sitemap line.",
     "noindex_header": "Remove the X-Robots-Tag noindex header for this URL (check .htaccess and middleware).",
     "schema_no_context": "Add `\"@context\": \"https://schema.org\"` to this JSON-LD block (use `@@context` inside Blade).",
     "schema_invalid": "This JSON-LD block does not parse. Check for trailing commas, unescaped quotes or Blade output "
@@ -42,6 +47,8 @@ STATIC_FIXES = {
     "img_alt_missing": "Add descriptive alt text to content images, and `alt=\"\"` to decorative ones.",
     "h1_multiple": "Keep one H1 per page; change the others to H2.",
 }
+
+SEV = ["critical", "high", "medium", "low"]
 
 AI_RULES = {"title_length", "title_superlative", "title_missing", "description_missing", "description_length",
             "description_duplicate", "title_duplicate", "h1_missing", "thin_content", "faq_schema_missing",
@@ -95,9 +102,16 @@ def run_suggestions(cfg, audit, day, ai: AI):
     static = [i for i in all_issues if static_fix(i["rule"]) and i["id"] not in done]
     if static:
         lines.append("## Technical fixes (rule based)\n")
+        groups = {}
         for i in static:
-            lines.append(f"### {i['id']}\n**Page:** {i['url']}\n**Problem:** {i['detail']}\n**Fix:** {static_fix(i['rule'])}\n")
-            done[i["id"]] = day
+            groups.setdefault((i["site"], re.sub(r"_\d+$", "", i["rule"])), []).append(i)
+        for (site, rule), items in sorted(groups.items(), key=lambda kv: SEV.index(kv[1][0]["severity"])):
+            urls = [i["url"] for i in items]
+            where = urls[0] if len(urls) == 1 else f"{len(urls)} pages, e.g. " + ", ".join(urls[:3])
+            lines.append(f"### [{items[0]['severity']}] {site}: {rule}\n**Where:** {where}\n"
+                         f"**Problem:** {items[0]['detail']}\n**Fix:** {static_fix(rule)}\n")
+            for i in items:
+                done[i["id"]] = day
 
     # llms.txt only once per site; skip AI rules already handled.
     todo = [i for i in all_issues if i["rule"] in AI_RULES and i["id"] not in done]
