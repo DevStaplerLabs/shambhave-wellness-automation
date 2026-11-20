@@ -60,3 +60,12 @@ def test_gsc_issue_conversion():
                                 "striking_distance": [{"query": "q one two", "page": "/p", "position": 11.0, "impressions": 90, "clicks": 1}]}}}
     rules = sorted(i["rule"] for i in gsc_issues(g))
     assert rules == ["low_ctr", "striking_distance"]
+
+
+def test_deploy_plan_guards():
+    from seo.deploy import plan
+    up, dele, skip, refuse = plan([("M", ".env"), ("M", "vendor/a.php"), ("A", "BackEndImage/x.jpg"), ("D", "app/X.php"),
+                                   ("D", "sitemap.xml"), ("M", "resources/views/a.blade.php"), ("M", "composer.lock")], 40)
+    assert up == ["resources/views/a.blade.php"] and dele == ["sitemap.xml"] and refuse is None
+    assert {".env", "vendor/a.php", "BackEndImage/x.jpg", "app/X.php", "composer.lock"} <= set(skip)
+    assert plan([("M", f"public/f{i}.txt") for i in range(41)], 40)[3]

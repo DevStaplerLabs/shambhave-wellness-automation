@@ -1,0 +1,58 @@
+name: Deploy merged website changes (FTP)
+
+on:
+  schedule:
+    - cron: "23 */2 * * *"   # every 2 hours
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy             # never two deploys at once
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Deploy (backup, upload, live check, rollback on failure)
+        env:
+          SITE_REPO_TOKEN: ${{ secrets.SITE_REPO_TOKEN }}
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_TLS: ${{ secrets.FTP_TLS }}
+          FTP_REMOTE_ROOTS: ${{ secrets.FTP_REMOTE_ROOTS }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          REPORT_FROM: ${{ secrets.REPORT_FROM }}
+          REPORT_TO: ${{ secrets.REPORT_TO }}
+        run: python run_deploy.py
+      - name: Keep backups of replaced files for 30 days
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-backup-${{ github.run_id }}
+          path: deploy_backup/
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Save deploy state
+        if: always()
+        run: |
+          git config user.name "staplerlabs-seo-bot"
+          git config user.email "seo-bot@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "data: deploy $(date -u +%FT%H%M)"
+          git pull --rebase --quiet && git push --quiet

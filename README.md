@@ -32,6 +32,29 @@ Technical fixes with a known answer (schema, redirects, exposed files) are writt
 | `data/weekly/<date>.html` | Copy of the weekly email |
 | `data/usage/<month>.json` | Every AI call with tokens and cost |
 
+## Fix and deploy (second automation)
+
+1. **Daily, after the check:** `run_sitefix.py` makes small, known-safe code changes in the website repo and opens
+   one pull request at a time (branch `seo-bot/<date>`): remove the static sitemap/robots files that hide the
+   per-domain ones, per-domain llms.txt route, block build files in .htaccess, twitter:card. PHP is syntax-checked.
+2. **You review and click Merge.** That is the approval step.
+3. **Every 2 hours:** `run_deploy.py` uploads what was merged by FTP(S): backup first, only allowed files
+   (never `.env`, `vendor/`, `storage/`, uploads in `BackEndImage/`, `scratch/`, composer files), at most 40 files,
+   clears Laravel's route/config cache when routes change, then loads key pages on both sites. If a page fails,
+   the old files are put back automatically and you get a "ROLLED BACK" email. Backups are kept 30 days as
+   workflow artifacts. The first run only checks the FTP login and records a baseline.
+
+Extra secrets for this part:
+
+| Secret | Value |
+| --- | --- |
+| `SITE_REPO_TOKEN` | Fine-grained token for the website repo only: Contents read/write, Pull requests read/write |
+| `FTP_HOST` | FTP server name from cPanel, e.g. `ftp.shambhavewellness.org` |
+| `FTP_USER` | A dedicated FTP account (not the main cPanel login) |
+| `FTP_PASSWORD` | Its password |
+| `FTP_REMOTE_ROOTS` | Folder(s) as the FTP account sees them, e.g. `/public_html` (comma separate if the foundation has its own folder) |
+| `FTP_PORT` / `FTP_TLS` | Optional: `21` / `1`. Set `FTP_TLS` to `0` only if the host has no FTPS |
+
 ## Safety
 
 - Reads public pages only. Never logs in, never submits forms, never touches booking, payment or client data.

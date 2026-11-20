@@ -35,6 +35,10 @@ jobs:
           REPORT_FROM: ${{ secrets.REPORT_FROM }}
           REPORT_TO: ${{ secrets.REPORT_TO }}
         run: python run_daily.py
+      - name: Open a pull request with safe code fixes (website repo)
+        env:
+          SITE_REPO_TOKEN: ${{ secrets.SITE_REPO_TOKEN }}
+        run: python run_sitefix.py
       - name: Save results
         run: |
           git config user.name "staplerlabs-seo-bot"
