@@ -119,7 +119,17 @@
       "purpose": "weekly_report",
       "request_id": "req_011ChEfDhxUifrbLAVyRR88h",
       "usd": 0.00125
+    },
+    {
+      "at": "2026-11-21T08:22:22+00:00",
+      "cache_read": 0,
+      "in": 7542,
+      "model": "claude-sonnet-5-5",
+      "out": 6378,
+      "purpose": "daily_suggestions",
+      "request_id": "req_011ChFkPZGTX9tSJe9UKkhWS",
+      "usd": 0.07886
     }
   ],
-  "total_usd": 0.39514
+  "total_usd": 0.474
 }
