@@ -1,5 +1,29 @@
 {
   "baseline_at": "2026-11-23T14:02:03+00:00",
-  "history": [],
-  "last_sha": "47963c97f0e4df9567cce849beda7b6aaa3bb5f7"
+  "history": [
+    {
+      "at": "2026-11-23T14:20:24+00:00",
+      "deleted": [
+        "robots.txt",
+        "sitemap.xml"
+      ],
+      "roots": [
+        "/",
+        "/foundation.shambhavewellness.org"
+      ],
+      "sha": "19c01242c03eb599a3676b5b0a16cd192033084c",
+      "skipped": [],
+      "uploaded": [
+        ".htaccess",
+        "app/Http/Controllers/SitemapController.php",
+        "app/helpers.php",
+        "resources/llms/foundation.txt",
+        "resources/llms/wellness.txt",
+        "resources/seo/overrides.json",
+        "resources/views/layouts/frontMaster.blade.php",
+        "routes/web.php"
+      ]
+    }
+  ],
+  "last_sha": "19c01242c03eb599a3676b5b0a16cd192033084c"
 }
