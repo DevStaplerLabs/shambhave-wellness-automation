@@ -1,0 +1,380 @@
+{
+  "ai_spend_month_usd": 0.9008,
+  "competitors_cited": [
+    {
+      "cited_in": 3,
+      "domain": "coachformind.com"
+    },
+    {
+      "cited_in": 3,
+      "domain": "en.wikipedia.org"
+    },
+    {
+      "cited_in": 2,
+      "domain": "fyp.life"
+    },
+    {
+      "cited_in": 2,
+      "domain": "soulup.in"
+    },
+    {
+      "cited_in": 2,
+      "domain": "drprernakohli.in"
+    },
+    {
+      "cited_in": 2,
+      "domain": "researchgate.net"
+    },
+    {
+      "cited_in": 1,
+      "domain": "theholisticliving.org.in"
+    },
+    {
+      "cited_in": 1,
+      "domain": "sevee.care"
+    }
+  ],
+  "content_drafts": [
+    {
+      "file": "2026-11-23-trauma-bonding-why-leaving-narcissistic-partner-is-hard.md",
+      "site": "wellness",
+      "source": "topic plan",
+      "topic": "Trauma bonding explained: why leaving a narcissistic partner feels so hard"
+    }
+  ],
+  "geo": [
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "narcissistic abuse recovery therapist in India",
+      "sources_found": [
+        "coachformind.com",
+        "findyourpath.in",
+        "fyp.life",
+        "psychologytoday.com",
+        "sevee.care",
+        "soulup.in",
+        "theholisticliving.org.in"
+      ],
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "clinical psychologist in Gurugram for narcissistic abuse",
+      "sources_found": [
+        "anniewright.com",
+        "coachformind.com",
+        "compassionateminds.in",
+        "drprernakohli.in",
+        "en.wikipedia.org",
+        "fyp.life",
+        "my-international-therapy.com",
+        "sereinmind.com",
+        "soulup.in"
+      ],
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "online therapy for NRIs with an Indian psychologist",
+      "sources_found": [
+        "coachformind.com",
+        "drprernakohli.in",
+        "en.wikipedia.org",
+        "indianshrink.com",
+        "leaphope.com",
+        "mymindcare.in",
+        "thethoughtco.in",
+        "youremotionalwellbeing.org"
+      ],
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "what is Subconscious Energy Healing Therapy (SEHT)",
+      "sources_found": [
+        "ggscw.ac.in",
+        "journalijsra.com",
+        "medcraveonline.com",
+        "researchgate.net",
+        "wjarr.com",
+        "zenodo.org"
+      ],
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "what is Boundary Enhancement Therapy",
+      "sources_found": [
+        "arxiv.org",
+        "autonotes.ai",
+        "image-ppubs.uspto.gov",
+        "jamesfitzgeraldtherapy.com",
+        "mindfulcenter.org",
+        "ncbi.nlm.nih.gov",
+        "pmc.ncbi.nlm.nih.gov",
+        "pubmed.ncbi.nlm.nih.gov",
+        "researchgate.net",
+        "sciencedirect.com"
+      ],
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "hypnotherapist in Gurgaon",
+      "sources_found": [
+        "hypnotherapygurgaon.com",
+        "justdial.com",
+        "practo.com",
+        "wellbeinghelp.com"
+      ],
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "mental health NGO in Gurugram for abuse survivors",
+      "sources_found": [
+        "arpan.org.in",
+        "athenabhs.com",
+        "jagrutirehab.org",
+        "talktome.co.in",
+        "thebetterindia.com",
+        "therapyroute.com"
+      ],
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": true,
+      "cited": false,
+      "in_results": true,
+      "query": "Dr Amita Puri psychologist",
+      "sources_found": [
+        "en.wikipedia.org",
+        "in.linkedin.com",
+        "linkedin.com",
+        "scholar.google.co.in",
+        "shambhavewellness.org",
+        "walnutpublication.com"
+      ],
+      "top_sources": []
+    }
+  ],
+  "geo_last_week": [
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "narcissistic abuse recovery therapist in India",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": true,
+      "cited": false,
+      "in_results": true,
+      "query": "clinical psychologist in Gurugram for narcissistic abuse",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "online therapy for NRIs with an Indian psychologist",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "what is Subconscious Energy Healing Therapy (SEHT)",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "what is Boundary Enhancement Therapy",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "hypnotherapist in Gurgaon",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": false,
+      "query": "mental health NGO in Gurugram for abuse survivors",
+      "top_sources": []
+    },
+    {
+      "brand_mentioned": false,
+      "cited": false,
+      "in_results": true,
+      "query": "Dr Amita Puri psychologist",
+      "top_sources": []
+    }
+  ],
+  "new_this_week": [],
+  "pagespeed": [
+    {
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%",
+      "url": "https://shambhavewellness.org/"
+    },
+    {
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%",
+      "url": "https://shambhavewellness.org/service/narcissistic-abuse-recovery-therapy"
+    },
+    {
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%",
+      "url": "https://foundation.shambhavewellness.org/"
+    }
+  ],
+  "pagespeed_last_week": [
+    {
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%",
+      "url": "https://shambhavewellness.org/"
+    },
+    {
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%",
+      "url": "https://shambhavewellness.org/service/narcissistic-abuse-recovery-therapy"
+    },
+    {
+      "error": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%",
+      "url": "https://foundation.shambhavewellness.org/"
+    }
+  ],
+  "resolved_this_week": [],
+  "score_history": [
+    {
+      "Shambhave Wellness": 24,
+      "Shambhave Wellness Foundation": 0,
+      "week": "2026-11-20"
+    },
+    {
+      "Shambhave Wellness": 24,
+      "Shambhave Wellness Foundation": 0,
+      "week": "2026-11-23"
+    }
+  ],
+  "search_console": {
+    "skipped": "GSC_SERVICE_ACCOUNT_JSON not set"
+  },
+  "sites": [
+    {
+      "critical": 0,
+      "high": 2,
+      "low": 96,
+      "medium": 82,
+      "pages": 45,
+      "score": 24,
+      "score_prev": null,
+      "site": "Shambhave Wellness"
+    },
+    {
+      "critical": 2,
+      "high": 7,
+      "low": 162,
+      "medium": 102,
+      "pages": 69,
+      "score": 0,
+      "score_prev": null,
+      "site": "Shambhave Wellness Foundation"
+    }
+  ],
+  "top_open": [
+    {
+      "detail": "http://shambhavewellness.org/ loads with 200 as well as https://shambhavewellness.org/. Pick one version and 301 the other.",
+      "rule": "host_duplicate",
+      "severity": "high",
+      "site": "wellness",
+      "url": "http://shambhavewellness.org/"
+    },
+    {
+      "detail": "https://www.shambhavewellness.org/ loads with 200 as well as https://shambhavewellness.org/. Pick one version and 301 the other.",
+      "rule": "host_duplicate",
+      "severity": "high",
+      "site": "wellness",
+      "url": "https://www.shambhavewellness.org/"
+    },
+    {
+      "detail": "robots.txt points to another domain's sitemap: Sitemap: https://www.shambhavewellness.org/sitemap.xml",
+      "rule": "robots_sitemap_wrong_host",
+      "severity": "critical",
+      "site": "foundation",
+      "url": "https://foundation.shambhavewellness.org/robots.txt"
+    },
+    {
+      "detail": "45 of 45 sitemap URLs belong to another domain (e.g. https://www.shambhavewellness.org/). This site's own pages are not being submitted to Google.",
+      "rule": "sitemap_wrong_host",
+      "severity": "critical",
+      "site": "foundation",
+      "url": "https://foundation.shambhavewellness.org/sitemap.xml"
+    },
+    {
+      "detail": "No meta description",
+      "rule": "description_missing",
+      "severity": "high",
+      "site": "foundation",
+      "url": "https://foundation.shambhavewellness.org/course/astrology-numerology-psychospiritual-studies"
+    },
+    {
+      "detail": "No meta description",
+      "rule": "description_missing",
+      "severity": "high",
+      "site": "foundation",
+      "url": "https://foundation.shambhavewellness.org/course/foundational-wellness-healing-programs"
+    },
+    {
+      "detail": "No meta description",
+      "rule": "description_missing",
+      "severity": "high",
+      "site": "foundation",
+      "url": "https://foundation.shambhavewellness.org/course/youth-parenting-relationship-training"
+    },
+    {
+      "detail": "http://foundation.shambhavewellness.org/ loads with 200 as well as https://foundation.shambhavewellness.org/. Pick one version and 301 the other.",
+      "rule": "host_duplicate",
+      "severity": "high",
+      "site": "foundation",
+      "url": "http://foundation.shambhavewellness.org/"
+    },
+    {
+      "detail": "https://www.foundation.shambhavewellness.org/ loads with 200 as well as https://foundation.shambhavewellness.org/. Pick one version and 301 the other.",
+      "rule": "host_duplicate",
+      "severity": "high",
+      "site": "foundation",
+      "url": "https://www.foundation.shambhavewellness.org/"
+    },
+    {
+      "detail": "Returns HTTP 404",
+      "rule": "page_status",
+      "severity": "high",
+      "site": "foundation",
+      "url": "https://foundation.shambhavewellness.org/anxiety-management"
+    },
+    {
+      "detail": "Returns HTTP 404",
+      "rule": "page_status",
+      "severity": "high",
+      "site": "foundation",
+      "url": "https://foundation.shambhavewellness.org/stress-management"
+    }
+  ],
+  "week_ending": "2026-11-23"
+}

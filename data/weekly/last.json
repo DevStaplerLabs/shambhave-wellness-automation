@@ -5,13 +5,33 @@
       "cited": false,
       "in_results": false,
       "query": "narcissistic abuse recovery therapist in India",
+      "sources_found": [
+        "coachformind.com",
+        "findyourpath.in",
+        "fyp.life",
+        "psychologytoday.com",
+        "sevee.care",
+        "soulup.in",
+        "theholisticliving.org.in"
+      ],
       "top_sources": []
     },
     {
-      "brand_mentioned": true,
+      "brand_mentioned": false,
       "cited": false,
-      "in_results": true,
+      "in_results": false,
       "query": "clinical psychologist in Gurugram for narcissistic abuse",
+      "sources_found": [
+        "anniewright.com",
+        "coachformind.com",
+        "compassionateminds.in",
+        "drprernakohli.in",
+        "en.wikipedia.org",
+        "fyp.life",
+        "my-international-therapy.com",
+        "sereinmind.com",
+        "soulup.in"
+      ],
       "top_sources": []
     },
     {
@@ -19,6 +39,16 @@
       "cited": false,
       "in_results": false,
       "query": "online therapy for NRIs with an Indian psychologist",
+      "sources_found": [
+        "coachformind.com",
+        "drprernakohli.in",
+        "en.wikipedia.org",
+        "indianshrink.com",
+        "leaphope.com",
+        "mymindcare.in",
+        "thethoughtco.in",
+        "youremotionalwellbeing.org"
+      ],
       "top_sources": []
     },
     {
@@ -26,6 +56,14 @@
       "cited": false,
       "in_results": false,
       "query": "what is Subconscious Energy Healing Therapy (SEHT)",
+      "sources_found": [
+        "ggscw.ac.in",
+        "journalijsra.com",
+        "medcraveonline.com",
+        "researchgate.net",
+        "wjarr.com",
+        "zenodo.org"
+      ],
       "top_sources": []
     },
     {
@@ -33,6 +71,18 @@
       "cited": false,
       "in_results": false,
       "query": "what is Boundary Enhancement Therapy",
+      "sources_found": [
+        "arxiv.org",
+        "autonotes.ai",
+        "image-ppubs.uspto.gov",
+        "jamesfitzgeraldtherapy.com",
+        "mindfulcenter.org",
+        "ncbi.nlm.nih.gov",
+        "pmc.ncbi.nlm.nih.gov",
+        "pubmed.ncbi.nlm.nih.gov",
+        "researchgate.net",
+        "sciencedirect.com"
+      ],
       "top_sources": []
     },
     {
@@ -40,6 +90,12 @@
       "cited": false,
       "in_results": false,
       "query": "hypnotherapist in Gurgaon",
+      "sources_found": [
+        "hypnotherapygurgaon.com",
+        "justdial.com",
+        "practo.com",
+        "wellbeinghelp.com"
+      ],
       "top_sources": []
     },
     {
@@ -47,13 +103,29 @@
       "cited": false,
       "in_results": false,
       "query": "mental health NGO in Gurugram for abuse survivors",
+      "sources_found": [
+        "arpan.org.in",
+        "athenabhs.com",
+        "jagrutirehab.org",
+        "talktome.co.in",
+        "thebetterindia.com",
+        "therapyroute.com"
+      ],
       "top_sources": []
     },
     {
-      "brand_mentioned": false,
+      "brand_mentioned": true,
       "cited": false,
       "in_results": true,
       "query": "Dr Amita Puri psychologist",
+      "sources_found": [
+        "en.wikipedia.org",
+        "in.linkedin.com",
+        "linkedin.com",
+        "scholar.google.co.in",
+        "shambhavewellness.org",
+        "walnutpublication.com"
+      ],
       "top_sources": []
     }
   ],
