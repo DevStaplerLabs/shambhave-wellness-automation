@@ -10,7 +10,9 @@ Website code lives in a separate repo: DevStaplerLabs/shambhave-wellness-backend
 - `run_sitefix.py` opens one PR at a time in the website repo with safe code fixes (`seo/sitefix.py`)
 - `seo/overrides.py` daily titles/descriptions/canonicals into `data/overrides.json`; shipped to the website as
   `resources/seo/overrides.json`, read by `seo_head()` in `app/helpers.php` (no database access)
-- `run_deploy.py` deploys merged website changes by FTP: backup, upload, live check, rollback (`seo/deploy.py`)
+- `run_deploy.py` deploys merged website changes by FTP: backup, upload, live check, rollback (`seo/deploy.py`).
+  FTP roots: `/` (clinic) and `/foundation.shambhavewellness.org`. Once main is live it merges main into the
+  `foundation` branch (cPanel's foundation repo deploys from it; it differs from main only in `.cpanel.yml`)
 - `seo/` modules; `config.yaml` sites, queries, models, budget, entity facts; `data/` run history (committed by Actions)
 - `.github/workflows/` daily 06:47 IST, weekly Monday 08:11 IST, deploy every 2 hours
 

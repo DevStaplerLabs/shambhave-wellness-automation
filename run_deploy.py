@@ -24,6 +24,39 @@ def alert(subject, lines):
     print(subject, "|", send_email(subject, html, body, f"deploy-{datetime.now(timezone.utc):%Y%m%d%H%M%S}"))
 
 
+def sync_branches(url, token, head):
+    """Keep branches that cPanel deploys from (e.g. `foundation`) level with main once main is live.
+
+    The foundation site is deployed by cPanel from its own branch, which differs from main only in
+    .cpanel.yml. If that branch falls behind, a click on cPanel's Deploy would put old code back.
+    So after main is live, merge main into it (no checkout, `git merge-tree`). Main only holds
+    reviewed, merged code. A conflict is reported and the branch is left alone."""
+    out = []
+    for br in [b.strip() for b in os.environ.get("SYNC_BRANCHES", "foundation").split(",") if b.strip()]:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = os.path.join(tmp, "sync")
+            if git(tmp, "clone", "-q", "--filter=blob:none", "--no-checkout", "--branch", br, url, repo,
+                   check=False).returncode:
+                out.append(f"{br}: branch not found, skipped")
+                continue
+            git(repo, "fetch", "-q", "origin", BASE)
+            tip = git(repo, "rev-parse", "HEAD").stdout.strip()
+            if git(repo, "merge-base", "--is-ancestor", head, tip, check=False).returncode == 0:
+                continue  # already contains what is live
+            mt = git(repo, "merge-tree", "--write-tree", tip, head, check=False)
+            if mt.returncode:
+                out.append(f"{br}: merge conflict with {BASE}, left unchanged. Merge it by hand.")
+                continue
+            tree = mt.stdout.split()[0]
+            commit = git(repo, "-c", "user.name=StaplerLabs SEO Bot", "-c", "user.email=seo-bot@users.noreply.github.com",
+                         "commit-tree", tree, "-p", tip, "-p", head,
+                         "-m", f"Sync {BASE} into {br} (StaplerLabs SEO bot, after deploy of {head[:8]})").stdout.strip()
+            p = git(repo, "push", "-q", "origin", f"{commit}:refs/heads/{br}", check=False)
+            out.append(f"{br}: synced to {head[:8]}" if not p.returncode else
+                       f"{br}: push refused ({p.stderr.replace(token or '~~', '***')[:150]})")
+    return out
+
+
 def health_urls(cfg):
     urls = []
     audit = audit_on_or_before(today()) or {"sites": []}
@@ -72,7 +105,10 @@ def main():
             alert("Deployer connected (baseline set)", [f"FTP login works. Baseline commit {head[:8]}.",
                                                        "From now on, anything merged into main is deployed hourly."])
             return
-        if head == last or head == state.get("failed_sha") or head == state.get("refused_sha"):
+        if head == last:
+            print("Nothing new to deploy.", *sync_branches(url, token, head))
+            return
+        if head == state.get("failed_sha") or head == state.get("refused_sha"):
             print("Nothing new to deploy")
             return
         if git(repo, "cat-file", "-e", last, check=False).returncode:
@@ -133,10 +169,12 @@ def main():
         state["history"].append({"at": now_iso(), "sha": head, "uploaded": uploads, "deleted": deletes,
                                  "skipped": skipped, "roots": roots})
         write_json("deploy/state.json", state)
+        synced = sync_branches(url, token, head)
         alert(f"Deployed {len(uploads) + len(deletes)} file(s) to the live site",
               ["Live check passed on: " + ", ".join(health_urls(cfg)),
                "Uploaded: " + (", ".join(uploads) or "none"), "Deleted: " + (", ".join(deletes) or "none"),
-               ("Not deployed (manual only): " + ", ".join(skipped)) if skipped else ""] + commits[:10])
+               ("Not deployed (manual only): " + ", ".join(skipped)) if skipped else "",
+               ("Branches: " + "; ".join(synced)) if synced else ""] + commits[:10])
 
 
 if __name__ == "__main__":
