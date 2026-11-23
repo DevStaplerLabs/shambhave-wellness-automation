@@ -9,6 +9,8 @@ import tempfile
 
 import requests
 
+from seo.overrides import export
+from seo.overrides import load as load_overrides
 from seo.sitefix import apply_fixes, git, pr_body
 from seo.store import DATA, audit_on_or_before, today, write_json
 
@@ -53,7 +55,7 @@ def main():
             sys.exit(1)
         branch = f"seo-bot/{day}"
         git(repo, "checkout", "-b", branch)
-        fixes = apply_fixes(repo, issues, DATA / "generated")
+        fixes = apply_fixes(repo, issues, DATA / "generated", overrides=export(load_overrides()))
         if not git(repo, "status", "--porcelain").stdout.strip():
             print("Nothing to fix in code today")
             return

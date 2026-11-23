@@ -137,7 +137,7 @@ def page_facts(url, r):
         "preloader_alt": next((i.get("alt") for i in imgs if "please wait" in (i.get("alt") or "").lower()), None),
         "og_title": meta(property="og:title"),
         "og_image": meta(property="og:image"),
-        "twitter_card": meta(name="twitter:card"),
+        "twitter_card": meta(name="twitter:card") or meta(property="twitter:card"),
         "lang": (soup.html.get("lang") if soup.html else None),
         "x_robots": (r.headers.get("X-Robots-Tag") or "").lower(),
         "img_no_size": sum(1 for i in imgs if not (i.get("width") and i.get("height"))),
@@ -465,9 +465,43 @@ def audit_site(fetcher, cfg, site):
             "page_count": len(pages)}
 
 
+def page_path(url):
+    return urlparse(url).path.rstrip("/") or "/"
+
+
+def cross_site_issues(cfg, sites):
+    """Pages served on both domains with the same title (the clinic's service and course pages also load on
+    the foundation domain). Google then has to pick one; the copy on the other domain should point its
+    canonical at the owner site. `cross_site.canonical_owner` in config.yaml names the owner."""
+    owner_key = (cfg.get("cross_site") or {}).get("canonical_owner")
+    by = {s["site"]: s for s in sites}
+    owner_cfg = next((c for c in cfg["sites"] if c["key"] == owner_key), None)
+    if not owner_cfg or owner_key not in by:
+        return
+    base = owner_cfg["base_url"].rstrip("/")
+    own = {page_path(p["url"]): p for p in by[owner_key]["pages"] if p.get("status") == 200 and p.get("title")}
+    for s in sites:
+        if s["site"] == owner_key:
+            continue
+        for p in s["pages"]:
+            path = page_path(p["url"])
+            o = own.get(path)
+            if path == "/" or p.get("status") != 200 or not o or o["title"] != p.get("title"):
+                continue
+            target = base + path
+            if norm(p.get("canonical") or "") == norm(target):
+                continue  # already points at the owner
+            s["issues"].append(issue(s["site"], "cross_site_duplicate", "high", p["url"],
+                                     f"Same page as {target} (same title). Point this page's canonical there."))
+
+
 def run_audit(cfg):
     fetcher = Fetcher(cfg)
-    return {"run_at": now_iso(), "sites": [audit_site(fetcher, cfg, s) for s in cfg["sites"]]}
+    sites = [audit_site(fetcher, cfg, s) for s in cfg["sites"]]
+    cross_site_issues(cfg, sites)
+    for s in sites:
+        s["issues"].sort(key=lambda i: (SEVERITY_ORDER[i["severity"]], i["rule"], i["url"]))
+    return {"run_at": now_iso(), "sites": sites}
 
 
 def score(site_audit):

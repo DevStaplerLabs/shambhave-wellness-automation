@@ -71,6 +71,17 @@ limits:
   min_words_service_page: 600
   max_html_kb: 250
 
+overrides:
+  # Titles, descriptions and canonicals the bot applies itself through resources/seo/overrides.json in the
+  # website repo (one pull request at a time, a human merges, the deployer ships it). See seo/overrides.py.
+  enabled: true
+  max_pages_per_day: 8
+
+cross_site:
+  # The clinic's service and course pages also load on the foundation domain. Copies with the same title
+  # get a canonical pointing at this site. Set to "" to stop.
+  canonical_owner: wellness
+
 pagespeed:
   # Pages tested weekly on mobile. Free API; PSI_API_KEY secret is optional.
   urls:

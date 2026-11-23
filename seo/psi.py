@@ -1,22 +1,40 @@
-"""Google PageSpeed Insights (free). Mobile scores and Core Web Vitals for a few key pages."""
+"""Google PageSpeed Insights (free). Mobile scores and Core Web Vitals for a few key pages.
+
+Without PSI_API_KEY the API shares a small anonymous quota and often answers 429, so requests are spaced
+out and retried with a back-off. A free key (PSI_API_KEY secret) removes the problem."""
 import os
+import time
 
 import requests
 
 API = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
+WAITS = (20, 60, 120)  # seconds before each retry on 429 / 5xx
 
 
-def run_pagespeed(cfg):
+def _fetch(params, sleep=time.sleep):
+    last = None
+    for wait in (0,) + WAITS:
+        if wait:
+            sleep(wait)
+        r = requests.get(API, params=params, timeout=120)
+        if r.status_code != 429 and r.status_code < 500:
+            r.raise_for_status()
+            return r.json()
+        last = r
+    last.raise_for_status()
+
+
+def run_pagespeed(cfg, sleep=time.sleep):
     out = []
     key = os.environ.get("PSI_API_KEY")
-    for url in cfg["pagespeed"]["urls"]:
+    for n, url in enumerate(cfg["pagespeed"]["urls"]):
+        if n:
+            sleep(5 if key else 15)
         params = {"url": url, "strategy": "mobile", "category": "performance"}
         if key:
             params["key"] = key
         try:
-            r = requests.get(API, params=params, timeout=120)
-            r.raise_for_status()
-            j = r.json()
+            j = _fetch(params, sleep)
             lh = j["lighthouse"]["result"]
             audits = lh["audits"]
             field = j.get("loadingExperience", {}).get("metrics", {})
@@ -31,5 +49,8 @@ def run_pagespeed(cfg):
                 "field_inp": field.get("INTERACTION_TO_NEXT_PAINT", {}).get("category"),
             })
         except Exception as e:
-            out.append({"url": url, "error": f"{type(e).__name__}: {str(e)[:120]}"})
+            msg = f"{type(e).__name__}: {str(e)[:120]}"
+            if "429" in msg and not key:
+                msg += " (add the free PSI_API_KEY secret to stop this)"
+            out.append({"url": url, "error": msg})
     return out

@@ -39,6 +39,24 @@ def competitor_tally(geo, targets):
     return [{"domain": d, "cited_in": n} for d, n in c.most_common(8)]
 
 
+def pipeline_status():
+    """Where the automatic fixes stand: queued here, in a website PR, or deployed."""
+    ov = read_json("overrides.json", {})
+    n = Counter()
+    for paths in ov.values():
+        for o in paths.values():
+            for k in ("title", "description", "canonical"):
+                n[k] += bool(o.get(k))
+    prs = list_dated("sitefix")
+    last_pr = read_json(f"sitefix/{prs[-1]}.json", {}) if prs else {}
+    dep = read_json("deploy/state.json", {})
+    hist = dep.get("history") or []
+    return {"overrides": dict(n), "last_pr": {"day": prs[-1], "link": last_pr.get("pr")} if prs else None,
+            "deploy": ("not set up" if not dep else
+                       {"last": hist[-1]["at"] if hist else dep.get("baseline_at"), "deploys": len(hist),
+                        "failed_sha": dep.get("failed_sha"), "refused_sha": dep.get("refused_sha")})}
+
+
 def build_facts(cfg, day, psi, geo, ai: AI, gsc=None, content=None):
     cur = audit_on_or_before(day)
     prev = audit_on_or_before((date.fromisoformat(day) - timedelta(days=7)).isoformat())
@@ -65,6 +83,7 @@ def build_facts(cfg, day, psi, geo, ai: AI, gsc=None, content=None):
         "score_history": [h for h in score_history() if h["week"] != day]
                          + [{"week": day, **{r["site"]: r["score"] for r in rows}}],
         "ai_spend_month_usd": ai.spent(),
+        "fix_pipeline": pipeline_status(),
     }
 
 
@@ -132,6 +151,19 @@ def render(cfg, facts, summary_md):
     comp_block = f"<h2>Who AI search uses instead</h2><ul>{comp}</ul>" if comp else ""
     drafts = "".join(f"<li>{e(c.get('topic', ''))}: {e(c.get('file') or c.get('error', ''))}</li>" for c in facts.get("content_drafts", []))
     drafts_block = f"<h2>New article drafts (review before publishing)</h2><ul>{drafts}</ul>" if drafts else ""
+    fp = facts.get("fix_pipeline") or {}
+    ovn = fp.get("overrides") or {}
+    pr = fp.get("last_pr")
+    dep = fp.get("deploy")
+    dep_txt = (dep if isinstance(dep, str) else
+               f"{dep.get('deploys', 0)} deploys, last {dep.get('last') or 'none'}"
+               + (" | last attempt ROLLED BACK" if dep.get("failed_sha") else "")
+               + (" | held: too many files, deploy by hand" if dep.get("refused_sha") else "")) if dep else "not set up"
+    pipe_block = ("<h2>Automatic fixes</h2><ul>"
+                  f"<li>Queued for the website: {ovn.get('title', 0)} titles, {ovn.get('description', 0)} descriptions, "
+                  f"{ovn.get('canonical', 0)} canonicals</li>"
+                  f"<li>Last website pull request: {e(str(pr['link'])) + ' (' + e(pr['day']) + ')' if pr else 'none yet (SITE_REPO_TOKEN secret missing?)'}</li>"
+                  f"<li>Deploys: {e(dep_txt)}</li></ul>")
     resolved = "".join(f"<li>{e(i['rule'])}: {e(i['url'])}</li>" for i in facts["resolved_this_week"]) or "<li>None this week</li>"
     new = "".join(f"<li><b>{e(i['severity'])}</b> {e(i['detail'])}: {e(i['url'])}</li>" for i in facts["new_this_week"]) or "<li>None</li>"
     css = ("body{font-family:Arial,sans-serif;color:#1d1d1d;max-width:760px;margin:auto}"
@@ -142,6 +174,7 @@ def render(cfg, facts, summary_md):
 {_md_safe(summary_md)}
 <h2>Site health</h2><table><tr><th>Site</th><th>Score (change)</th><th>Pages</th><th>Critical</th><th>High</th><th>Medium</th><th>Low</th></tr>{site_rows}</table>
 {hist_block}
+{pipe_block}
 {gsc_block}
 <h2>Fixed this week</h2><ul>{resolved}</ul>
 <h2>New problems this week</h2><ul>{new}</ul>

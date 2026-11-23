@@ -8,6 +8,8 @@ Website code lives in a separate repo: DevStaplerLabs/shambhave-wellness-backend
 - `run_daily.py` crawl both sites, checks, fixes list (`data/suggestions/`), alert on new critical issues
 - `run_weekly.py` Search Console, PageSpeed, AI-search visibility, article draft, weekly email
 - `run_sitefix.py` opens one PR at a time in the website repo with safe code fixes (`seo/sitefix.py`)
+- `seo/overrides.py` daily titles/descriptions/canonicals into `data/overrides.json`; shipped to the website as
+  `resources/seo/overrides.json`, read by `seo_head()` in `app/helpers.php` (no database access)
 - `run_deploy.py` deploys merged website changes by FTP: backup, upload, live check, rollback (`seo/deploy.py`)
 - `seo/` modules; `config.yaml` sites, queries, models, budget, entity facts; `data/` run history (committed by Actions)
 - `.github/workflows/` daily 06:47 IST, weekly Monday 08:11 IST, deploy every 2 hours
@@ -29,4 +31,5 @@ Website code lives in a separate repo: DevStaplerLabs/shambhave-wellness-backend
 - Writing for the client (prompts in `seo/ai.py` HOUSE_RULES): plain Indian English, no em/en dashes, no
   treatment or cure claims, no "best" superlatives, no prices, nothing that identifies a patient.
 - Keep AI cost low: rule-based fixes stay in code; Claude only for copy. Monthly cap in `config.yaml`.
+- Every AI title/description passes `check_text()` in `seo/overrides.py` before it is queued. Keep those checks.
 - Items marked CONFIRM in `config.yaml` need the clinic's confirmation before generated files go live.

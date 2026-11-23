@@ -13,7 +13,7 @@ Technical fixes with a known answer (schema, redirects, exposed files) are writt
 
 ### What gets checked
 
-- **Indexing:** status codes, noindex (meta and header), canonicals, sitemap health, fake lastmod dates, www/http duplicates, root-level duplicate URLs.
+- **Indexing:** status codes, noindex (meta and header), canonicals, sitemap health, fake lastmod dates, www/http duplicates, root-level duplicate URLs, the same page served on both domains.
 - **On-page:** titles, descriptions (length, duplicates, "best" claims), H1s, thin pages, alt text, images without dimensions, heavy images, mixed content.
 - **Schema:** invalid JSON-LD, leaked PHP, missing @context, service pages without FAQPage, articles without BlogPosting.
 - **Links:** broken internal links, orphan pages.
@@ -36,7 +36,14 @@ Technical fixes with a known answer (schema, redirects, exposed files) are writt
 
 1. **Daily, after the check:** `run_sitefix.py` makes small, known-safe code changes in the website repo and opens
    one pull request at a time (branch `seo-bot/<date>`): remove the static sitemap/robots files that hide the
-   per-domain ones, per-domain llms.txt route, block build files in .htaccess, twitter:card. PHP is syntax-checked.
+   per-domain ones, 301 www/http to https without www, per-domain llms.txt route, block build files in .htaccess,
+   twitter:card, and the page overrides below. PHP is syntax-checked.
+   **Page overrides:** titles and descriptions live in the admin panel database, which the bot never touches. So the
+   daily run writes new titles/descriptions (Claude, then checked in code for length, house rules, claims, prices
+   and duplicates) and canonicals into `data/overrides.json`. The PR copies them to `resources/seo/overrides.json`
+   in the website repo, where a small `seo_head()` helper in `app/helpers.php` swaps the head tags for those paths
+   only. Foundation copies of clinic service/course pages get a canonical to the clinic URL. Remove a path from
+   the file to undo. Settings: `overrides` and `cross_site` in `config.yaml`.
 2. **You review and click Merge.** That is the approval step.
 3. **Every 2 hours:** `run_deploy.py` uploads what was merged by FTP(S): backup first, only allowed files
    (never `.env`, `vendor/`, `storage/`, uploads in `BackEndImage/`, `scratch/`, composer files), at most 40 files,
@@ -58,7 +65,8 @@ Extra secrets for this part:
 ## Safety
 
 - Reads public pages only. Never logs in, never submits forms, never touches booking, payment or client data.
-- Never edits or deploys the website. Fixes are suggestions you review and apply yourself.
+- Never changes the live website on its own. Website changes go in as a pull request; nothing ships until a
+  person merges it, and the deployer backs up, checks and rolls back. Content edits stay suggestions.
 - All keys live in GitHub Actions secrets. None are in this repo.
 - Website text sent to Claude is marked as untrusted data, and Claude's output is HTML-escaped before it goes into an email.
 - Monthly AI budget cap in `config.yaml` (`monthly_budget_usd`). Spend is logged in `data/usage/`.

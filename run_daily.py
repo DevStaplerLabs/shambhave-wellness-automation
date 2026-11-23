@@ -9,6 +9,7 @@ from seo.ai import AI
 from seo.crawl import diff, run_audit, score
 from seo.generate import write_generated
 from seo.notify import send_email
+from seo.overrides import handled_rules, run_overrides, summary_md
 from seo.store import DATA, audit_on_or_before, load_config, today, write_json, write_text
 from seo.suggest import run_suggestions
 
@@ -26,15 +27,24 @@ def main():
 
     write_generated(cfg, audit)
     ai = AI(cfg, enabled=not args.no_ai)
-    md, n_static, n_ai = run_suggestions(cfg, audit, day, ai)
+    ov = run_overrides(cfg, audit, day, ai)
+    skip = handled_rules() if (cfg.get("overrides") or {}).get("enabled", True) else set()
+    md, n_static, n_ai = run_suggestions(cfg, audit, day, ai, skip_rules=skip)
+    ov_md = summary_md(ov)
+    if ov_md:
+        head, _, rest = md.partition("\n")
+        md = f"{head}\n\n{ov_md}\n{rest}"
+    n_ov = len(ov["queued"]) + len(ov["canonicals"])
     # A second run on the same day must not wipe the fixes already written that morning.
-    if n_static or n_ai or not (DATA / f"suggestions/{day}.md").exists():
+    if n_static or n_ai or n_ov or not (DATA / f"suggestions/{day}.md").exists():
         write_text(f"suggestions/{day}.md", md)
 
     summary = ", ".join(f"{s['name']}: score {score(s)}, {len(s['issues'])} issues, {s['page_count']} pages"
                         for s in audit["sites"])
     print(f"[{day}] {summary}. New: {len(d['new'])}, resolved: {len(d['resolved'])}. "
-          f"Fixes written: {n_static} rule based, {n_ai} by AI. AI spend this month: ${ai.spent()}")
+          f"Fixes written: {n_static} rule based, {n_ai} by AI. Queued for the website: "
+          f"{len(ov['queued'])} titles/descriptions, {len(ov['canonicals'])} canonicals "
+          f"({len(ov['rejected'])} held back). AI spend this month: ${ai.spent()}")
 
     critical = [i for i in d["new"] if i["severity"] == "critical"]
     if critical:
