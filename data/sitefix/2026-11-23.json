@@ -1,0 +1,58 @@
+{
+  "fixes": [
+    {
+      "deleted": [
+        "sitemap.xml",
+        "robots.txt"
+      ],
+      "files": [
+        "sitemap.xml",
+        "robots.txt"
+      ],
+      "id": "static_sitemap_robots",
+      "title": "Remove static sitemap.xml and robots.txt so each domain gets its own",
+      "why": "Apache serves real files before Laravel routes, so both domains were serving the old main-site sitemap (www URLs, 45 pages). The foundation's own pages were not submitted to Google."
+    },
+    {
+      "deleted": [],
+      "files": [
+        ".htaccess"
+      ],
+      "id": "host_redirects",
+      "title": "301 www and http to https without www, on both domains",
+      "why": "Today every page loads four ways (http/https, with/without www), and the www copy even sets its own canonical. Google splits signals between the copies. The deploy's live check follows redirects, so a redirect loop would fail it and roll back."
+    },
+    {
+      "deleted": [],
+      "files": [
+        ".htaccess"
+      ],
+      "id": "htaccess_block",
+      "title": "Block public access to build files (composer.lock, Dockerfile, README.md and similar)",
+      "why": "These files reveal package versions and server setup. They are never needed by visitors."
+    },
+    {
+      "deleted": [],
+      "files": [
+        "resources/llms/wellness.txt",
+        "resources/llms/foundation.txt",
+        "routes/web.php"
+      ],
+      "id": "llms_txt",
+      "title": "Add llms.txt for both domains",
+      "why": "Gives AI assistants a clean summary of each site and its key pages. Rebuilt from live pages daily."
+    },
+    {
+      "deleted": [],
+      "files": [
+        "app/helpers.php",
+        "resources/views/layouts/frontMaster.blade.php",
+        "resources/seo/overrides.json"
+      ],
+      "id": "seo_overrides",
+      "title": "Page titles, descriptions and canonicals (34 changes)",
+      "why": "Titles and descriptions live in the admin panel database, which the bot never touches. These overrides sit in one JSON file and win over the database text for the listed paths only. Foundation copies of clinic pages point their canonical to the clinic site. Remove a path from the file to undo it. Setup: adds `seo_head()` to app/helpers.php; frontMaster passes the page head through `seo_head()`.\n\nChanged entries:\n- `foundation.shambhavewellness.org/aba-therapy` canonical: https://shambhavewellness.org/aba-therapy\n- `foundation.shambhavewellness.org/adolescent-issues` canonical: https://shambhavewellness.org/adolescent-issues\n- `foundation.shambhavewellness.org/anxiety-management` title: Anxiety Therapy in Gurugram | Shambhave Wellness\n- `foundation.shambhavewellness.org/anxiety-management` description: Therapy for adults dealing with anxiety, panic attacks and overthinking, in person in Gurugram or online. Call or book an appointment to begin.\n- `foundation.shambhavewellness.org/anxiety-stress-management-therapy` canonical: https://shambhavewellness.org/anxiety-stress-management-therapy\n- `foundation.shambhavewellness.org/corporate-training` canonical: https://shambhavewellness.org/corporate-training\n- `foundation.shambhavewellness.org/course` title: Guided Courses and Training | Shambhave Foundation\n- `foundation.shambhavewellness.org/course` description: Guided courses for professionals and individuals, including Boundary Enhancement Therapy and Integrative Somatic Trauma Therapy. See details and enrol.\n- `foundation.shambhavewellness.org/course/astrology-numerology-psychospiritual-studies` title: Astrology and Numerology Course | Shambhave Wellness\n- `foundation.shambhavewellness.org/course/boundary-enhancement-therapy` description: A 6 month professional training in assessing and strengthening psychological boundaries, for psychologists and therapists. See details and enrol.\n- `foundation.shambhavewellness.org/dealing-with-depression-anxiety-stress` canonical: https://shambhavewellness.org/dealing-with-depression-anxiety-stress\n- `foundation.shambhavewellness.org/family-therapy` canonical: https://shambhavewellness.org/family-therapy\n- `foundation.shambhavewellness.org/future-life-progression` canonical: https://shambhavewellness.org/future-life-progression\n- `foundation.shambhavewellness.org/hypnotherapy-subconscious-mind-therapy` canonical: https://shambhavewellness.org/hypnotherapy-subconscious-mind-therapy\n- `foundation.shambhavewellness.org/inner-child-healing` canonical: https://shambhavewellness.org/inner-child-healing\n- `foundation.shambhavewellness.org/marriage-counseling` canonical: https://shambhavewellness.org/marriage-counseling\n- `foundation.shambhavewellness.org/narcissistic-abuse-recovery-therapy` canonical: https://shambhavewellness.org/narcissistic-abuse-recovery-therapy\n- `foundation.shambhavewellness.org/parenting-concerns` canonical: https://shambhavewellness.org/parenting-concerns\n- `foundation.shambhavewellness.org/past-life-regression` canonical: https://shambhavewellness.org/past-life-regression\n- `foundation.shambhavewellness.org/personality-profiling-personal-growth-coaching` canonical: https://shambhavewellness.org/personality-profiling-personal-growth-coaching\n- `foundation.shambhavewellness.org/project` title: Community Mental Health Projects | Shambhave Foundation\n- `foundation.shambhavewellness.org/project` description: Community outreach by the foundation, including mental health support for senior women. See our projects and get in touch to take part.\n- `foundation.shambhavewellness.org/psycho-astro-therapy-pat` canonical: https://shambhavewellness.org/psycho-astro-therapy-pat\n- `foundation.shambhavewellness.org/publications` title: Psychotherapy Publications | Shambhave Foundation\n- `foundation.shambhavewellness.org/publications` description: Books and publications on psychotherapy, trauma and mental wellbeing for readers and professionals. Browse the titles and choose one to read.\n- `foundation.shambhavewellness.org/relationship-counseling` canonical: https://shambhavewellness.org/relationship-counseling\n- `foundation.shambhavewellness.org/relationship-marriage-counselling` canonical: https://shambhavewellness.org/relationship-marriage-counselling\n- `foundation.shambhavewellness.org/service` title: Clinical Psychology Services | Shambhave Foundation\n- `foundation.shambhavewellness.org/service` description: Clinical psychology, trauma therapy and community care across 21 therapeutic modalities. Read about each service and book an appointment.\n- `foundation.shambhavewellness.org/sound-healing-therapy` canonical: https://shambhavewellness.org/sound-healing-therapy\n- `foundation.shambhavewellness.org/stress-management` title: Stress Management Therapy India | Shambhave Wellness\n- `foundation.shambhavewellness.org/stress-management` description: Sessions for people facing chronic stress and emotional overwhelm, in person in Gurugram or online across India. Book an appointment to talk it through.\n- `foundation.shambhavewellness.org/subconscious-energy-healing-therapy-seht` canonical: https://shambhavewellness.org/subconscious-energy-healing-therapy-seht\n- `foundation.shambhavewellness.org/trauma-healing-inner-child-therapy` canonical: https://shambhavewellness.org/trauma-healing-inner-child-therapy"
+    }
+  ],
+  "pr": "https://github.com/DevStaplerLabs/shambhave-wellness-backend/pull/3"
+}
