@@ -1,9 +1,25 @@
 {
   "foundation.shambhavewellness.org": {
+    "/": {
+      "description": "Non-profit arm of Shambhave Wellness, supporting senior citizens and women who cannot access mental health care due to cost. Read about our work.",
+      "description_added": "2026-11-24",
+      "description_was": "Shambhave Wellness Foundation is a registered non-profit organization dedicated to fostering social, emotional, and psychological well-being for senior citizens, women, and underserved communities.",
+      "title": "Community Mental Health Care | Shambhave Foundation",
+      "title_added": "2026-11-24",
+      "title_was": "Shambhave Wellness Foundation | Non-Profit Mental Health & Community Care"
+    },
     "/aba-therapy": {
       "canonical": "https://shambhavewellness.org/aba-therapy",
       "canonical_added": "2026-11-23",
       "canonical_reason": "same page on the clinic site"
+    },
+    "/about-us": {
+      "description": "Read about the mission, advisory board and community mental health programmes of Shambhave Wellness Foundation. Visit the page to know more.",
+      "description_added": "2026-11-24",
+      "description_was": "Learn about our mission, visionary advisory board, and community mental health programs dedicated to creating accessible psychological support and compassionate healing.",
+      "title": "Mission and Advisory Board | Shambhave Foundation",
+      "title_added": "2026-11-24",
+      "title_was": "About Us | Shambhave Wellness Foundation | Mission & Leadership"
     },
     "/adolescent-issues": {
       "canonical": "https://shambhavewellness.org/adolescent-issues",
@@ -157,6 +173,38 @@
       "canonical": "https://shambhavewellness.org/trauma-healing-inner-child-therapy",
       "canonical_added": "2026-11-23",
       "canonical_reason": "same page on the clinic site"
+    }
+  },
+  "shambhavewellness.org": {
+    "/course/astrology-numerology-psychospiritual-studies": {
+      "title": "Astrology and Numerology Studies | Shambhave Wellness",
+      "title_added": "2026-11-24",
+      "title_was": "Astrology, Numerology & PsychoSpiritual Studies | Shambave Wellness"
+    },
+    "/course/boundary-enhancement-therapy": {
+      "description": "Six month training in Boundary Enhancement Therapy by Dr. Amita Puri for mental health professionals. Online and offline. See the course details.",
+      "description_added": "2026-11-24",
+      "description_was": "A 6-month professional training program focused on understanding, assessing and strengthening psychological boundaries across personal, emotional, relational, family, workplace and digital settings."
+    },
+    "/course/dark-psychology-behavioral-manipulation": {
+      "description": "A 6 month course on manipulative tactics and Dark Triad traits, taught online and offline. Read the course details and write to us to enquire.",
+      "description_added": "2026-11-24",
+      "description_was": "Learn the psychology of influence, manipulation tactics, persuasion techniques, and behavioral patterns through advanced psychological study from Shambhave Wellness."
+    },
+    "/course/narcissism-in-clinical-practice": {
+      "description": "Six month advanced training for mental health and healthcare professionals on assessing and working with narcissistic presentations. See course details.",
+      "description_added": "2026-11-24",
+      "description_was": "A 6-month advanced professional training program for mental-health and healthcare professionals focused on understanding, assessing and therapeutically working with narcissistic presentations."
+    },
+    "/course/psychodiagnosis-the-masterclass-in-clinical-assessment": {
+      "description": "Six month masterclass for practitioners on psychological assessment, diagnostic testing and case formulation. Online and offline. See course details.",
+      "description_added": "2026-11-24",
+      "description_was": "Master psychological assessment techniques, diagnostic frameworks, case formulation, and clinical evaluation skills with expert-led training by Shambhave Wellness."
+    },
+    "/service/narcissistic-abuse-recovery-therapy": {
+      "title": "Narcissistic Abuse Recovery Therapy | Shambhave Wellness",
+      "title_added": "2026-11-24",
+      "title_was": "Best Narcissistic Abuse Recovery Specialist in India"
     }
   }
 }

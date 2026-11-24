@@ -1,0 +1,24 @@
+{
+  "fixes": [
+    {
+      "deleted": [],
+      "files": [
+        "resources/llms/wellness.txt",
+        "resources/llms/foundation.txt"
+      ],
+      "id": "llms_txt",
+      "title": "Add llms.txt for both domains",
+      "why": "Gives AI assistants a clean summary of each site and its key pages. Rebuilt from live pages daily."
+    },
+    {
+      "deleted": [],
+      "files": [
+        "resources/seo/overrides.json"
+      ],
+      "id": "seo_overrides",
+      "title": "Page titles, descriptions and canonicals (10 changes)",
+      "why": "Titles and descriptions live in the admin panel database, which the bot never touches. These overrides sit in one JSON file and win over the database text for the listed paths only. Foundation copies of clinic pages point their canonical to the clinic site. Remove a path from the file to undo it.\n\nChanged entries:\n- `foundation.shambhavewellness.org/` title: Community Mental Health Care | Shambhave Foundation\n- `foundation.shambhavewellness.org/` description: Non-profit arm of Shambhave Wellness, supporting senior citizens and women who cannot access mental health care due to cost. Read about our work.\n- `foundation.shambhavewellness.org/about-us` title: Mission and Advisory Board | Shambhave Foundation\n- `foundation.shambhavewellness.org/about-us` description: Read about the mission, advisory board and community mental health programmes of Shambhave Wellness Foundation. Visit the page to know more.\n- `shambhavewellness.org/course/astrology-numerology-psychospiritual-studies` title: Astrology and Numerology Studies | Shambhave Wellness\n- `shambhavewellness.org/course/boundary-enhancement-therapy` description: Six month training in Boundary Enhancement Therapy by Dr. Amita Puri for mental health professionals. Online and offline. See the course details.\n- `shambhavewellness.org/course/dark-psychology-behavioral-manipulation` description: A 6 month course on manipulative tactics and Dark Triad traits, taught online and offline. Read the course details and write to us to enquire.\n- `shambhavewellness.org/course/narcissism-in-clinical-practice` description: Six month advanced training for mental health and healthcare professionals on assessing and working with narcissistic presentations. See course details.\n- `shambhavewellness.org/course/psychodiagnosis-the-masterclass-in-clinical-assessment` description: Six month masterclass for practitioners on psychological assessment, diagnostic testing and case formulation. Online and offline. See course details.\n- `shambhavewellness.org/service/narcissistic-abuse-recovery-therapy` title: Narcissistic Abuse Recovery Therapy | Shambhave Wellness"
+    }
+  ],
+  "pr": "https://github.com/DevStaplerLabs/shambhave-wellness-backend/pull/4"
+}
