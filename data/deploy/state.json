@@ -23,7 +23,22 @@
         "resources/views/layouts/frontMaster.blade.php",
         "routes/web.php"
       ]
+    },
+    {
+      "at": "2026-11-25T11:25:18+00:00",
+      "deleted": [],
+      "roots": [
+        "/",
+        "/foundation.shambhavewellness.org"
+      ],
+      "sha": "a05d56bddef18dda7d17a484d6e34ec8eb3ee9d8",
+      "skipped": [],
+      "uploaded": [
+        "resources/llms/foundation.txt",
+        "resources/llms/wellness.txt",
+        "resources/seo/overrides.json"
+      ]
     }
   ],
-  "last_sha": "19c01242c03eb599a3676b5b0a16cd192033084c"
+  "last_sha": "a05d56bddef18dda7d17a484d6e34ec8eb3ee9d8"
 }
