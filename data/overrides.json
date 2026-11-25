@@ -39,6 +39,11 @@
       "canonical_added": "2026-11-23",
       "canonical_reason": "same page on the clinic site"
     },
+    "/contact-us": {
+      "title": "Contact Us for Partnerships | Shambhave Foundation",
+      "title_added": "2026-11-25",
+      "title_was": "Contact Us | Shambhave Wellness Foundation | Inquiries & Partnerships"
+    },
     "/corporate-training": {
       "canonical": "https://shambhavewellness.org/corporate-training",
       "canonical_added": "2026-11-23",
@@ -173,9 +178,29 @@
       "canonical": "https://shambhavewellness.org/trauma-healing-inner-child-therapy",
       "canonical_added": "2026-11-23",
       "canonical_reason": "same page on the clinic site"
+    },
+    "/volunteer/aaravdeep-sindhu": {
+      "title": "Aaravdeep Sindhu, Volunteer | Shambhave Foundation",
+      "title_added": "2026-11-25",
+      "title_was": "AARAVDEEP SINDHU | Volunteer Profile | Shambhave Wellness Foundation"
+    },
+    "/volunteers": {
+      "title": "Volunteer With Us | Shambhave Foundation",
+      "title_added": "2026-11-25",
+      "title_was": "Volunteer With Us | Join Shambhave Wellness Foundation Community"
     }
   },
   "shambhavewellness.org": {
+    "/": {
+      "title": "Clinical Psychologist in Gurugram | Shambhave Wellness",
+      "title_added": "2026-11-25",
+      "title_was": "Best Clinical Psychologist in Gurgaon | Online Therapy India"
+    },
+    "/about-us": {
+      "title": "About Dr. Amita Puri, Therapist | Shambhave Wellness",
+      "title_added": "2026-11-25",
+      "title_was": "Best Mental Health Therapist Gurgaon | About Shambhave"
+    },
     "/course/astrology-numerology-psychospiritual-studies": {
       "title": "Astrology and Numerology Studies | Shambhave Wellness",
       "title_added": "2026-11-24",
@@ -200,6 +225,11 @@
       "description": "Six month masterclass for practitioners on psychological assessment, diagnostic testing and case formulation. Online and offline. See course details.",
       "description_added": "2026-11-24",
       "description_was": "Master psychological assessment techniques, diagnostic frameworks, case formulation, and clinical evaluation skills with expert-led training by Shambhave Wellness."
+    },
+    "/international-clients": {
+      "title": "Online Therapy for NRIs | Shambhave Wellness",
+      "title_added": "2026-11-25",
+      "title_was": "Online Therapy for Indians Abroad & Narcissistic Abuse Recovery | Dr. Amita Puri"
     },
     "/service/narcissistic-abuse-recovery-therapy": {
       "title": "Narcissistic Abuse Recovery Therapy | Shambhave Wellness",

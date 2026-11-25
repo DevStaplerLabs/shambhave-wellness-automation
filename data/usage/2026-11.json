@@ -279,7 +279,27 @@
       "purpose": "daily_suggestions",
       "request_id": "req_011ChMdnVjEU3xFYRayGKqR4",
       "usd": 0.13452
+    },
+    {
+      "at": "2026-11-25T09:54:08+00:00",
+      "cache_read": 0,
+      "in": 4721,
+      "model": "claude-sonnet-5-5",
+      "out": 451,
+      "purpose": "seo_overrides",
+      "request_id": "req_011ChPSg48uxhuEGjFGoHnRg",
+      "usd": 0.01395
+    },
+    {
+      "at": "2026-11-25T09:55:19+00:00",
+      "cache_read": 0,
+      "in": 7432,
+      "model": "claude-sonnet-5-5",
+      "out": 12000,
+      "purpose": "daily_suggestions",
+      "request_id": "req_011ChPSgJsRsFDPshC6DXVy2",
+      "usd": 0.13486
     }
   ],
-  "total_usd": 1.10851
+  "total_usd": 1.25732
 }

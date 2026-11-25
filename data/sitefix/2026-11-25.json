@@ -1,0 +1,14 @@
+{
+  "fixes": [
+    {
+      "deleted": [],
+      "files": [
+        "resources/seo/overrides.json"
+      ],
+      "id": "seo_overrides",
+      "title": "Page titles, descriptions and canonicals (6 changes)",
+      "why": "Titles and descriptions live in the admin panel database, which the bot never touches. These overrides sit in one JSON file and win over the database text for the listed paths only. Foundation copies of clinic pages point their canonical to the clinic site. Remove a path from the file to undo it.\n\nChanged entries:\n- `foundation.shambhavewellness.org/contact-us` title: Contact Us for Partnerships | Shambhave Foundation\n- `foundation.shambhavewellness.org/volunteer/aaravdeep-sindhu` title: Aaravdeep Sindhu, Volunteer | Shambhave Foundation\n- `foundation.shambhavewellness.org/volunteers` title: Volunteer With Us | Shambhave Foundation\n- `shambhavewellness.org/` title: Clinical Psychologist in Gurugram | Shambhave Wellness\n- `shambhavewellness.org/about-us` title: About Dr. Amita Puri, Therapist | Shambhave Wellness\n- `shambhavewellness.org/international-clients` title: Online Therapy for NRIs | Shambhave Wellness"
+    }
+  ],
+  "pr": "https://github.com/DevStaplerLabs/shambhave-wellness-backend/pull/5"
+}
