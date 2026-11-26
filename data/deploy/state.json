@@ -38,7 +38,20 @@
         "resources/llms/wellness.txt",
         "resources/seo/overrides.json"
       ]
+    },
+    {
+      "at": "2026-11-26T23:02:35+00:00",
+      "deleted": [],
+      "roots": [
+        "/",
+        "/foundation.shambhavewellness.org"
+      ],
+      "sha": "e5630616584d25091d3b0aba7a1fa87560d139c9",
+      "skipped": [],
+      "uploaded": [
+        "resources/seo/overrides.json"
+      ]
     }
   ],
-  "last_sha": "a05d56bddef18dda7d17a484d6e34ec8eb3ee9d8"
+  "last_sha": "e5630616584d25091d3b0aba7a1fa87560d139c9"
 }
