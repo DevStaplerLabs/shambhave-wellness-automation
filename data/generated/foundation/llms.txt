@@ -2,7 +2,7 @@
 
 > Non-profit arm of Shambhave Wellness running community mental health programmes, subsidised therapy and volunteering in India.
 
-Shambhave Wellness Foundation is a registered non-profit organization dedicated to fostering social, emotional, and psychological well-being for senior citizens, women, and underserved communities.
+Non-profit arm of Shambhave Wellness, supporting senior citizens and women who cannot access mental health care due to cost. Read about our work.
 
 ## Key facts
 
@@ -25,7 +25,7 @@ Shambhave Wellness Foundation is a registered non-profit organization dedicated 
 
 ## Other pages
 
-- [About Us | Shambhave Wellness Foundation | Mission & Leadership](https://foundation.shambhavewellness.org/about-us)
+- [Mission and Advisory Board](https://foundation.shambhavewellness.org/about-us)
 - [Become a Member](https://foundation.shambhavewellness.org/membership)
 - [Support Our Cause](https://foundation.shambhavewellness.org/ngo)
 - [Contact Us | Shambhave Wellness Foundation | Inquiries & Partnerships](https://foundation.shambhavewellness.org/contact-us)
