@@ -1,0 +1,15 @@
+{
+  "fixes": [
+    {
+      "deleted": [],
+      "files": [
+        "resources/llms/wellness.txt",
+        "resources/llms/foundation.txt"
+      ],
+      "id": "llms_txt",
+      "title": "Add llms.txt for both domains",
+      "why": "Gives AI assistants a clean summary of each site and its key pages. Rebuilt from live pages daily."
+    }
+  ],
+  "pr": "https://github.com/DevStaplerLabs/shambhave-wellness-backend/pull/6"
+}
