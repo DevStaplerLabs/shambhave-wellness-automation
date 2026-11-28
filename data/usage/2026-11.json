@@ -329,7 +329,17 @@
       "purpose": "seo_overrides",
       "request_id": "req_011ChTDV8XXnoyQ8k47DDYWB",
       "usd": 0.00745
+    },
+    {
+      "at": "2026-11-28T08:58:10+00:00",
+      "cache_read": 0,
+      "in": 1612,
+      "model": "claude-sonnet-5-5",
+      "out": 414,
+      "purpose": "seo_overrides",
+      "request_id": "req_011ChV3qMSKJq76siG8pL33W",
+      "usd": 0.00736
     }
   ],
-  "total_usd": 1.40215
+  "total_usd": 1.40951
 }
